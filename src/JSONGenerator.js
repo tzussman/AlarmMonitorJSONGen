@@ -44,6 +44,14 @@ const TabBarContainer = styled.div`
   padding-bottom: 10px;
 `;
 
+const FormContainer = styled.div`
+  padding-left: 15px;
+`;
+
+const NotificationParagraph = styled.p`
+  margin-top: 0px;
+`;
+
 class JSONGenerator extends React.Component {
 
     constructor(props) {
@@ -177,14 +185,14 @@ class JSONGenerator extends React.Component {
 
         const roomForm = 
             <form noValidate autoComplete="off">
-                <p>Number of Rooms Added: {this.state.roomCount}</p>
+                <NotificationParagraph>Number of Rooms Added: {this.state.roomCount}</NotificationParagraph>
                 <TextField id="room_name_input" name="roomName" label="Room name" value={this.state.roomValue} onChange={this.handleRoomChange} />
                 {buttons}
             </form>;
 
         const streamForm = 
             <form noValidate autoComplete="off">
-                <p>Current Room: {this.state.currentRoom}</p>
+                <NotificationParagraph>Current Room: {this.state.currentRoom}</NotificationParagraph>
                 {this.state.currentRoom !== NO_ROOM ?
                   <><TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue} onChange={this.handleStreamChange} />
                   <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue} onChange={this.handleStreamAddressChange} />
@@ -220,7 +228,9 @@ class JSONGenerator extends React.Component {
                       </Tabs>
                     </AppBar>
                   </TabBarContainer>
+                  <FormContainer>
                   {form}
+                  </FormContainer>
                 </TabContainer>
                 
                 <Footer>
