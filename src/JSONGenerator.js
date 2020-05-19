@@ -1,7 +1,34 @@
 import React from 'react';
+import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
+import ColumbiaLogo from "./Columbia_University_Logo-white.png";
+
+
+const PageContainerDiv = styled.div`
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+`;
+
+const Footer = styled.div`
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  background-color: #022169;
+  width: 100%;
+  height: 7vh;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const Logo = styled.img`
+  height: 4vh;
+  width: auto;
+  padding-right: 5px;
+`;
 
 class JSONGenerator extends React.Component {
 
@@ -27,8 +54,6 @@ class JSONGenerator extends React.Component {
         this.handleStreamChange = this.handleStreamChange.bind(this);
         this.handleStreamAddressChange = this.handleStreamAddressChange.bind(this);
         this.addObject = this.addObject.bind(this);
-        this.addRoom = this.addRoom.bind(this);
-        this.addStream = this.addStream.bind(this);
         this.download = this.download.bind(this);
     }
 
@@ -48,36 +73,7 @@ class JSONGenerator extends React.Component {
         this.setState({streamAddressValue: event.target.value});
     }
 
-    addRoom(event) {
-
-
-        this.addObject();
-
-        this.setState({
-            roomValue: '',
-            streamValue: '',
-            streamAddressValue: '',
-            inRoom: true,
-            inStream: false
-        });
-        this.firstStreamInRoom = true;
-    }
-
-    addStream(event) {
-
-
-        this.addObject();
-
-        this.setState({
-            roomValue: '',
-            streamValue: '',
-            streamAddressValue: '',
-            inRoom: false,
-            inStream: true
-        });
-    }
-
-    addObject() {
+    addObject(addingRoom) {
         if (this.state.inRoom) {
             let toAppend = "      \"identifier\": \"" + this.state.roomValue + "\",\n      \"streams\": [\n";
             if (this.firstRoom) {
@@ -101,6 +97,18 @@ class JSONGenerator extends React.Component {
                 this.appendText(begin + toAppend);
             }
         }
+
+        this.setState({
+            roomValue: '',
+            streamValue: '',
+            streamAddressValue: '',
+            inRoom: addingRoom,
+            inStream: !addingRoom
+        });
+
+        if (addingRoom) {
+            this.firstStreamInRoom = true;
+        }
     }
 
     download(event) {
@@ -118,14 +126,15 @@ class JSONGenerator extends React.Component {
 
         document.body.removeChild(element);
         this.setState({inRoom: false, inStream: false});
+        this.json_text = "{\n  \"rooms\": [\n    {\n";
     }
 
     render() {
 
         const buttons = 
             <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-                <Button onClick={this.addRoom}>Add Room</Button>
-                <Button onClick={this.addStream}>Add Stream</Button>
+                <Button onClick={() => this.addObject(true)}>Add Room</Button>
+                <Button onClick={() => this.addObject(false)}>Add Stream</Button>
                 <Button onClick={this.download}>Finish and download</Button>
             </ButtonGroup>
 
@@ -148,16 +157,24 @@ class JSONGenerator extends React.Component {
             form = roomForm;
         }
         else {
-            form = streamForm;
-            // Add download screen here
+            if (this.state.inStream){
+                form = streamForm;
+            }
+            else {
+                form = <h2>Downloaded!</h2>
+            }
         }
 
         return (
-            <div>
+            <PageContainerDiv>
                 <h2>Welcome to JSON Generator</h2>
 
                 {form}
-            </div>
+
+                <Footer>
+                    <Logo src={ColumbiaLogo} alt="Columbia Logo" />;
+                </Footer>
+            </PageContainerDiv>
         );
     }
 }
