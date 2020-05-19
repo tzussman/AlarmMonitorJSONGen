@@ -11,9 +11,10 @@ import ColumbiaLogo from "./Columbia_University_Logo-white.png";
 
 const PageContainerDiv = styled.div`
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 `;
 
 const Footer = styled.div`
@@ -33,6 +34,15 @@ const Logo = styled.img`
   padding-right: 5px;
 `;
 
+const TabContainer = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
+`;
+
+const TabBarContainer = styled.div`
+  padding-bottom: 10px;
+`;
+
 class JSONGenerator extends React.Component {
 
     constructor(props) {
@@ -44,7 +54,8 @@ class JSONGenerator extends React.Component {
             streamValue: '',
             streamAddressValue: '',
             inRoom: true,
-            inStream: false
+            inStream: false,
+            currentRoom: "None"
         }
         this.json_text = "{\n  \"rooms\": [\n    {\n";
         this.firstRoom = true;
@@ -88,6 +99,9 @@ class JSONGenerator extends React.Component {
                 let begin = "\n      ]\n    },\n    {\n";
                 this.appendText(begin + toAppend);
             }
+            this.setState({
+              currentRoom: this.state.roomValue
+            });
         }
         else {
             let toAppend = "        {\n          \"name\": \"" + this.state.streamValue + "\",\n          \"streamLink\": \"" +
@@ -112,6 +126,10 @@ class JSONGenerator extends React.Component {
 
         if (addingRoom) {
             this.firstStreamInRoom = true;
+            this.setState({
+              inRoom: false,
+              inStream: true
+            })
         }
     }
 
@@ -160,6 +178,7 @@ class JSONGenerator extends React.Component {
 
         const streamForm = 
             <form noValidate autoComplete="off">
+                <p>Current Room: {this.state.currentRoom}</p>
                 <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue} onChange={this.handleStreamChange} />
                 <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue} onChange={this.handleStreamAddressChange} />
                 {buttons}
@@ -181,17 +200,19 @@ class JSONGenerator extends React.Component {
 
         return (
             <PageContainerDiv>
-                <h2>Welcome to JSON Generator</h2>
-
-                <AppBar value="mainTabs" position="static">
-                  <Tabs value={(this.state.inRoom === true) ? 0 : 1} onChange={this.handleTabChange} aria-label="simple tabs example">
-                    <Tab label="Rooms"/>
-                    <Tab label="Streams"/>
-                  </Tabs>
-                </AppBar>
+                <TabContainer>
+                  <h2>Welcome to JSON Generator</h2>
+                  <TabBarContainer>
+                    <AppBar value="mainTabs" position="static">
+                      <Tabs value={(this.state.inRoom === true) ? 0 : 1} onChange={this.handleTabChange} aria-label="simple tabs example">
+                        <Tab label="Rooms"/>
+                        <Tab label="Streams"/>
+                      </Tabs>
+                    </AppBar>
+                  </TabBarContainer>
+                  {form}
+                </TabContainer>
                 
-                {form}
-
                 <Footer>
                     <Logo src={ColumbiaLogo} alt="Columbia Logo" />;
                 </Footer>
