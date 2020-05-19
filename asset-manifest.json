@@ -1,18 +1,19 @@
 {
   "files": {
     "main.css": "/AlarmMonitorJSONGen/static/css/main.1359096b.chunk.css",
-    "main.js": "/AlarmMonitorJSONGen/static/js/main.65f9c2c6.chunk.js",
+    "main.js": "/AlarmMonitorJSONGen/static/js/main.24763e1d.chunk.js",
     "runtime-main.js": "/AlarmMonitorJSONGen/static/js/runtime-main.1afd2dcc.js",
-    "static/js/2.69b7cc5e.chunk.js": "/AlarmMonitorJSONGen/static/js/2.69b7cc5e.chunk.js",
+    "static/js/2.2b57d44e.chunk.js": "/AlarmMonitorJSONGen/static/js/2.2b57d44e.chunk.js",
     "index.html": "/AlarmMonitorJSONGen/index.html",
-    "precache-manifest.1a6c4982cb0ee5d76fdf520ef9c7d571.js": "/AlarmMonitorJSONGen/precache-manifest.1a6c4982cb0ee5d76fdf520ef9c7d571.js",
+    "precache-manifest.573ac0b85bc197a9bcf13192e5300214.js": "/AlarmMonitorJSONGen/precache-manifest.573ac0b85bc197a9bcf13192e5300214.js",
     "service-worker.js": "/AlarmMonitorJSONGen/service-worker.js",
-    "static/js/2.69b7cc5e.chunk.js.LICENSE.txt": "/AlarmMonitorJSONGen/static/js/2.69b7cc5e.chunk.js.LICENSE.txt"
+    "static/js/2.2b57d44e.chunk.js.LICENSE.txt": "/AlarmMonitorJSONGen/static/js/2.2b57d44e.chunk.js.LICENSE.txt",
+    "static/media/Columbia_University_Logo-white.png": "/AlarmMonitorJSONGen/static/media/Columbia_University_Logo-white.0f48c6df.png"
   },
   "entrypoints": [
     "static/js/runtime-main.1afd2dcc.js",
-    "static/js/2.69b7cc5e.chunk.js",
+    "static/js/2.2b57d44e.chunk.js",
     "static/css/main.1359096b.chunk.css",
-    "static/js/main.65f9c2c6.chunk.js"
+    "static/js/main.24763e1d.chunk.js"
   ]
 }
