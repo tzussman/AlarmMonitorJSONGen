@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
 import TextField from '@material-ui/core/TextField';
 import ColumbiaLogo from "./Columbia_University_Logo-white.png";
 
@@ -55,6 +58,7 @@ class JSONGenerator extends React.Component {
         this.handleStreamAddressChange = this.handleStreamAddressChange.bind(this);
         this.addObject = this.addObject.bind(this);
         this.download = this.download.bind(this);
+        this.handleTabChange = this.handleTabChange.bind(this);
     }
 
     appendText(text) {
@@ -129,12 +133,22 @@ class JSONGenerator extends React.Component {
         this.json_text = "{\n  \"rooms\": [\n    {\n";
     }
 
+    handleTabChange(event, index) {
+      var iRoom = (index === 0);
+      this.setState({
+        inRoom: iRoom,
+        inStream: !iRoom
+      });
+    }
+
     render() {
 
         const buttons = 
             <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-                <Button onClick={() => this.addObject(true)}>Add Room</Button>
-                <Button onClick={() => this.addObject(false)}>Add Stream</Button>
+                {this.state.inRoom
+                  ? <Button onClick={() => this.addObject(true)}>Add Room</Button>
+                  : <Button onClick={() => this.addObject(false)}>Add Stream</Button>
+                }
                 <Button onClick={this.download}>Finish and download</Button>
             </ButtonGroup>
 
@@ -169,6 +183,13 @@ class JSONGenerator extends React.Component {
             <PageContainerDiv>
                 <h2>Welcome to JSON Generator</h2>
 
+                <AppBar value="mainTabs" position="static">
+                  <Tabs value={(this.state.inRoom === true) ? 0 : 1} onChange={this.handleTabChange} aria-label="simple tabs example">
+                    <Tab label="Rooms"/>
+                    <Tab label="Streams"/>
+                  </Tabs>
+                </AppBar>
+                
                 {form}
 
                 <Footer>
