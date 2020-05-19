@@ -8,6 +8,7 @@ import AppBar from '@material-ui/core/AppBar';
 import TextField from '@material-ui/core/TextField';
 import ColumbiaLogo from "./Columbia_University_Logo-white.png";
 
+const NO_ROOM = "None";
 
 const PageContainerDiv = styled.div`
   position: relative;
@@ -55,7 +56,8 @@ class JSONGenerator extends React.Component {
             streamAddressValue: '',
             inRoom: true,
             inStream: false,
-            currentRoom: "None"
+            currentRoom: NO_ROOM,
+            roomCount: 0
         }
         this.json_text = "{\n  \"rooms\": [\n    {\n";
         this.firstRoom = true;
@@ -100,7 +102,8 @@ class JSONGenerator extends React.Component {
                 this.appendText(begin + toAppend);
             }
             this.setState({
-              currentRoom: this.state.roomValue
+              currentRoom: this.state.roomValue,
+              roomCount: this.state.roomCount + 1
             });
         }
         else {
@@ -135,7 +138,7 @@ class JSONGenerator extends React.Component {
 
     download(event) {
         event.preventDefault();
-        this.addObject();
+        //this.addObject();
         this.appendText("\n      ]\n    }\n  ]\n}\n");
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.json_text));
@@ -147,7 +150,7 @@ class JSONGenerator extends React.Component {
         element.click();
 
         document.body.removeChild(element);
-        this.setState({inRoom: false, inStream: false});
+        this.setState({inRoom: true, inStream: false, currentRoom: NO_ROOM, roomCount: 0});
         this.json_text = "{\n  \"rooms\": [\n    {\n";
     }
 
@@ -155,7 +158,7 @@ class JSONGenerator extends React.Component {
       var iRoom = (index === 0);
       this.setState({
         inRoom: iRoom,
-        inStream: !iRoom
+        inStream: (index === 1)
       });
     }
 
@@ -165,13 +168,16 @@ class JSONGenerator extends React.Component {
             <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
                 {this.state.inRoom
                   ? <Button onClick={() => this.addObject(true)}>Add Room</Button>
-                  : <Button onClick={() => this.addObject(false)}>Add Stream</Button>
+                  : (this.state.inStream
+                      ? <Button onClick={() => this.addObject(false)}>Add Stream</Button>
+                      : <Button onClick={this.download}>Download and start over</Button>
+                  )
                 }
-                <Button onClick={this.download}>Finish and download</Button>
             </ButtonGroup>
 
         const roomForm = 
             <form noValidate autoComplete="off">
+                <p>Number of Rooms Added: {this.state.roomCount}</p>
                 <TextField id="room_name_input" name="roomName" label="Room name" value={this.state.roomValue} onChange={this.handleRoomChange} />
                 {buttons}
             </form>;
@@ -179,9 +185,12 @@ class JSONGenerator extends React.Component {
         const streamForm = 
             <form noValidate autoComplete="off">
                 <p>Current Room: {this.state.currentRoom}</p>
-                <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue} onChange={this.handleStreamChange} />
-                <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue} onChange={this.handleStreamAddressChange} />
-                {buttons}
+                {this.state.currentRoom !== NO_ROOM ?
+                  <><TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue} onChange={this.handleStreamChange} />
+                  <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue} onChange={this.handleStreamAddressChange} />
+                  {buttons}</>
+                  : <p>Please add a room to add streams.</p>
+                }
             </form>;
 
         
@@ -194,7 +203,7 @@ class JSONGenerator extends React.Component {
                 form = streamForm;
             }
             else {
-                form = <h2>Downloaded!</h2>
+                form = buttons;
             }
         }
 
@@ -204,9 +213,10 @@ class JSONGenerator extends React.Component {
                   <h2>Welcome to JSON Generator</h2>
                   <TabBarContainer>
                     <AppBar value="mainTabs" position="static">
-                      <Tabs value={(this.state.inRoom === true) ? 0 : 1} onChange={this.handleTabChange} aria-label="simple tabs example">
+                      <Tabs value={(this.state.inRoom === true) ? 0 : (this.state.inStream === true ? 1 : 2)} onChange={this.handleTabChange} aria-label="simple tabs example">
                         <Tab label="Rooms"/>
                         <Tab label="Streams"/>
+                        <Tab label="Download"/>
                       </Tabs>
                     </AppBar>
                   </TabBarContainer>
