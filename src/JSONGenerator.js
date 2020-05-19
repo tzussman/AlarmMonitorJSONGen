@@ -97,7 +97,7 @@ class JSONGenerator extends React.Component {
                 this.firstStreamInRoom = false;
             }
             else {
-                let begin = "        ,\n";
+                let begin = ",\n";
                 this.appendText(begin + toAppend);
             }
         }
