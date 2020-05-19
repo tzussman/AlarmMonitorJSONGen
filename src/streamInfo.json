@@ -1,0 +1,72 @@
+{
+  "rooms": [
+    {
+      "identifier": "room123",
+      "streams": [
+        {
+          "name": "RaspberryPi",
+          "streamLink": "http://192.168.2.65:8000/livemic"
+        },
+        {
+          "name": "Alarm1",
+          "streamLink": "https://alarmtest.ceec.echem.io/alarm"
+        },
+        {
+          "name": "Livemic1",
+          "streamLink": "https://alarmtest.ceec.echem.io/livemic"
+        }
+      ]
+    },
+    {
+      "identifier": "room124",
+      "streams": [
+        {
+          "name": "Alarm",
+          "streamLink": "https://alarmtest.ceec.echem.io/alarm"
+        },
+        {
+          "name": "Livemic",
+          "streamLink": "https://alarmtest.ceec.echem.io/livemic"
+        },
+        {
+          "name": "Test_1",
+          "streamLink": "https://alarmtest.ceec.echem.io/test_1"
+        }
+      ]
+    },
+    {
+      "identifier": "room125",
+      "streams": [
+        {
+          "name": "Alarm2",
+          "streamLink": "https://alarmtest.ceec.echem.io/alarm"
+        },
+        {
+          "name": "Livemic2",
+          "streamLink": "https://alarmtest.ceec.echem.io/livemic"
+        },
+        {
+          "name": "Test12",
+          "streamLink": "https://alarmtest.ceec.echem.io/test_1"
+        }
+      ]
+    },
+    {
+      "identifier": "room126",
+      "streams": [
+        {
+          "name": "ALarm3",
+          "streamLink": "https://alarmtest.ceec.echem.io/alarm"
+        },
+        {
+          "name": "Livemic3",
+          "streamLink": "https://alarmtest.ceec.echem.io/livemic"
+        },
+        {
+          "name": "Test13",
+          "streamLink": "https://alarmtest.ceec.echem.io/test_1"
+        }
+      ]
+    }
+  ]
+}
