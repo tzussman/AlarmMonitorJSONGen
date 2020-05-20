@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Tabs, Tab, AppBar, TextField } from '@material-ui/core';
-import ColumbiaLogo from "./Columbia_University_Logo-white.png";
+import ColumbiaLogo from "./Columbia_University_Logo-white_small.png";
 
 const NO_ROOM = "None";
 
@@ -270,7 +270,7 @@ class JSONGenerator extends React.Component {
         </TabContainer>
 
         <Footer>
-          <Logo src={ColumbiaLogo} alt="Columbia Logo" />;
+          <Logo src={ColumbiaLogo} alt="Columbia Logo" />
                 </Footer>
       </PageContainerDiv>
     );
