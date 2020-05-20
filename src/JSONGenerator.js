@@ -131,16 +131,12 @@ class JSONGenerator extends React.Component {
             roomValue: '',
             streamValue: '',
             streamAddressValue: '',
-            inRoom: addingRoom,
-            inStream: !addingRoom
+            inRoom: false,
+            inStream: true
         });
 
         if (addingRoom) {
             this.firstStreamInRoom = true;
-            this.setState({
-              inRoom: false,
-              inStream: true
-            })
         }
     }
 
@@ -159,6 +155,8 @@ class JSONGenerator extends React.Component {
 
         document.body.removeChild(element);
         this.setState({inRoom: true, inStream: false, currentRoom: NO_ROOM, roomCount: 0});
+        this.firstRoom = true;
+        this.firstStreamInRoom = true;
         this.json_text = "{\n  \"rooms\": [\n    {\n";
     }
 
@@ -194,9 +192,11 @@ class JSONGenerator extends React.Component {
             <form noValidate autoComplete="off">
                 <NotificationParagraph>Current Room: {this.state.currentRoom}</NotificationParagraph>
                 {this.state.currentRoom !== NO_ROOM ?
-                  <><TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue} onChange={this.handleStreamChange} />
-                  <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue} onChange={this.handleStreamAddressChange} />
-                  {buttons}</>
+                  <>
+                    <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue} onChange={this.handleStreamChange} />
+                    <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue} onChange={this.handleStreamAddressChange} />
+                    {buttons}
+                  </>
                   : <p>Please add a room to add streams.</p>
                 }
             </form>;
