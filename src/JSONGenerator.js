@@ -1,11 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import TextField from '@material-ui/core/TextField';
+import { Button, ButtonGroup, Tabs, Tab, AppBar, TextField } from '@material-ui/core';
 import ColumbiaLogo from "./Columbia_University_Logo-white.png";
 
 const NO_ROOM = "None";
@@ -173,10 +168,10 @@ class JSONGenerator extends React.Component {
         const buttons = 
             <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
                 {this.state.inRoom
-                  ? <Button onClick={() => this.addObject(true)}>Add Room</Button>
+                  ? <Button onClick={() => this.addObject(true)} style={{ background: '#022169' }}>Add Room</Button>
                   : (this.state.inStream
-                      ? <Button onClick={() => this.addObject(false)}>Add Stream</Button>
-                      : <Button onClick={this.download}>Download and start over</Button>
+                      ? <Button onClick={() => this.addObject(false)} style={{ background: '#022169' }}>Add Stream</Button>
+                      : <Button onClick={this.download} style={{ background: '#022169' }}>Download and start over</Button>
                   )
                 }
             </ButtonGroup>
@@ -218,10 +213,11 @@ class JSONGenerator extends React.Component {
         return (
             <PageContainerDiv>
                 <TabContainer>
-                  <h2>Welcome to JSON Generator</h2>
+                  <h2>Alarm Monitoring System JSON Generator</h2>
                   <TabBarContainer>
                     <AppBar value="mainTabs" position="static">
-                      <Tabs value={(this.state.inRoom === true) ? 0 : (this.state.inStream === true ? 1 : 2)} onChange={this.handleTabChange} aria-label="simple tabs example">
+                      <Tabs value={(this.state.inRoom === true) ? 0 : (this.state.inStream === true ? 1 : 2)} onChange={this.handleTabChange} aria-label="simple tabs example"
+                      style={{ background: '#022169' }}>
                         <Tab label="Rooms"/>
                         <Tab label="Streams"/>
                         <Tab label="Download"/>
