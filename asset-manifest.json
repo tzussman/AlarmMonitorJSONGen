@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/AlarmMonitorJSONGen/static/css/main.1359096b.chunk.css",
-    "main.js": "/AlarmMonitorJSONGen/static/js/main.555f0660.chunk.js",
+    "main.js": "/AlarmMonitorJSONGen/static/js/main.cb92f629.chunk.js",
     "runtime-main.js": "/AlarmMonitorJSONGen/static/js/runtime-main.1afd2dcc.js",
     "static/js/2.192e44c5.chunk.js": "/AlarmMonitorJSONGen/static/js/2.192e44c5.chunk.js",
     "index.html": "/AlarmMonitorJSONGen/index.html",
-    "precache-manifest.6ee6c057d2bef5b815cb58154da20ce9.js": "/AlarmMonitorJSONGen/precache-manifest.6ee6c057d2bef5b815cb58154da20ce9.js",
+    "precache-manifest.13a45534baa907babde0dffa791fcc14.js": "/AlarmMonitorJSONGen/precache-manifest.13a45534baa907babde0dffa791fcc14.js",
     "service-worker.js": "/AlarmMonitorJSONGen/service-worker.js",
     "static/js/2.192e44c5.chunk.js.LICENSE.txt": "/AlarmMonitorJSONGen/static/js/2.192e44c5.chunk.js.LICENSE.txt",
-    "static/media/Columbia_University_Logo-white.png": "/AlarmMonitorJSONGen/static/media/Columbia_University_Logo-white.0f48c6df.png"
+    "static/media/Columbia_University_Logo-white_small.png": "/AlarmMonitorJSONGen/static/media/Columbia_University_Logo-white_small.70959af6.png"
   },
   "entrypoints": [
     "static/js/runtime-main.1afd2dcc.js",
     "static/js/2.192e44c5.chunk.js",
     "static/css/main.1359096b.chunk.css",
-    "static/js/main.555f0660.chunk.js"
+    "static/js/main.cb92f629.chunk.js"
   ]
 }
