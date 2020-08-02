@@ -108,6 +108,7 @@ class JSONGenerator extends React.Component {
       let rooms = this.json_object["rooms"];
       let streams = rooms[rooms.length - 1]["streams"];
       streams.push({ "name": this.state.streamValue, "streamLink": this.state.streamAddressValue });
+      this.setState({numStreams: this.state.numStreams + 1})
     }
 
     this.setState({
@@ -155,7 +156,7 @@ class JSONGenerator extends React.Component {
 
     const streamForm =
       <form noValidate autoComplete="off">
-        <NotificationParagraph>Current Room: {this.state.currentRoom}</NotificationParagraph>
+        <NotificationParagraph>{this.state.numStreams} streams added in {this.state.currentRoom} room. </NotificationParagraph>
         {this.state.currentRoom !== NO_ROOM ?
           <TextDiv>
             <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue}
