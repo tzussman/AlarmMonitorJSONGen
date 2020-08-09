@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Tabs, Tab, AppBar, TextField, Snackbar } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
+import { Button, Tabs, Tab, AppBar, TextField } from '@material-ui/core';
 import ColumbiaLogo from "./Columbia_University_Logo-white_small.png";
 
 const NO_ROOM = "None";
@@ -69,9 +68,7 @@ class JSONGenerator extends React.Component {
       streamValue: '',
       streamAddressValue: '',
       currentRoom: NO_ROOM,
-      index: 0,
-      snackbarOpen: false,
-      snackMessage: ''
+      index: 0
     }
     this.json_object = { "rooms": [] }
 
@@ -81,8 +78,6 @@ class JSONGenerator extends React.Component {
     this.handleTabChange = this.handleTabChange.bind(this);
     this.addObject = this.addObject.bind(this);
     this.download = this.download.bind(this);
-    this.handleSnackbarExited = this.handleSnackbarExited.bind(this);
-    this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
   }
 
   handleRoomChange(event) {
@@ -103,32 +98,25 @@ class JSONGenerator extends React.Component {
 
   addObject() {
     if (this.state.index === 0) {
-      const message = this.state.roomValue + " added!";
       this.json_object["rooms"].push({ "identifier": this.state.roomValue, "streams": [] });
       this.setState({
         currentRoom: this.state.roomValue,
         numRooms: this.state.numRooms + 1,
-        snackMessage: message,
-        snackbarOpen: true
+        numStreams: 0
       });
     }
     else if (this.state.index === 1) {
-      const message = "New stream added!";
       let rooms = this.json_object["rooms"];
       let streams = rooms[rooms.length - 1]["streams"];
       streams.push({ "name": this.state.streamValue, "streamLink": this.state.streamAddressValue });
-      this.setState({
-        numStreams: this.state.numStreams + 1,
-        snackMessage: message,
-        snackbarOpen: true
-      })
+      this.setState({ numStreams: this.state.numStreams + 1 })
     }
 
     this.setState({
       roomValue: '',
       streamValue: '',
       streamAddressValue: '',
-      index: 1,
+      index: 1
     });
   }
 
@@ -141,23 +129,15 @@ class JSONGenerator extends React.Component {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-    
-    this.setState({ currentRoom: NO_ROOM, numRooms: 0, index: 0 });
+
+    this.setState({ currentRoom: NO_ROOM, numRooms: 0, numStreams: 0, index: 0 });
     this.json_object = { "rooms": [] }
   }
-
-  handleSnackbarExited() {
-    this.setState({ snackMessage: "" });
-  }
-
-  handleSnackbarClose(event, reason) {
-    this.setState({ snackbarOpen: false });
-  };
 
   render() {
     const roomForm =
       <form noValidate autoComplete="off">
-        <NotificationParagraph>Number of Rooms Added: {this.state.numRooms}</NotificationParagraph>
+        <NotificationParagraph>Number of rooms added: {this.state.numRooms}</NotificationParagraph>
         <TextDiv>
           <TextField id="room_name_input" name="roomName" label="Room name" value={this.state.roomValue}
             onKeyPress={(event) => {
@@ -177,62 +157,48 @@ class JSONGenerator extends React.Component {
 
     const streamForm =
       <form noValidate autoComplete="off">
-        <NotificationParagraph>
-          {this.state.numStreams} 
-          {this.state.numStreams <= 1 ? " stream " : " streams "}
-           added in Room {this.state.currentRoom}. 
-        </NotificationParagraph>
         {this.state.currentRoom !== NO_ROOM ?
-          <TextDiv>
-            <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  this.addObject();
-                }
-              }}
-              onChange={this.handleStreamChange}
-            />
-            <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  this.addObject();
-                }
-              }}
-              onChange={this.handleStreamAddressChange}
-            />
-            <ButtonDiv>
-              <Button onClick={this.addObject} style={{ background: '#022169', color: 'white' }}>
-                Add Stream
+          <>
+            <NotificationParagraph>
+              Number of streams in room "{this.state.currentRoom}": {this.state.numStreams}
+            </NotificationParagraph>
+            <TextDiv>
+              <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    this.addObject();
+                  }
+                }}
+                onChange={this.handleStreamChange}
+              />
+              <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    this.addObject();
+                  }
+                }}
+                onChange={this.handleStreamAddressChange}
+              />
+              <ButtonDiv>
+                <Button onClick={this.addObject} style={{ background: '#022169', color: 'white' }}>
+                  Add Stream
               </Button>
-            </ButtonDiv>
-          </TextDiv>
-          : <p>Please add a room to add streams.</p>
+              </ButtonDiv>
+            </TextDiv>
+          </>
+          :
+          <>
+            <NotificationParagraph>Current room: {NO_ROOM}</NotificationParagraph>
+            <p>Please add a room to add streams.</p>
+          </>
         }
       </form>;
 
     const downloadButton = <Button onClick={this.download} style={{ background: '#022169', color: 'white' }}>
-        Download and start over
+      Download and start over
       </Button>;
 
     const form = [roomForm, streamForm, downloadButton][this.state.index];
-
-    const notificationSnackbar = (
-      <Snackbar
-        key={this.state.snackMessage ? this.state.snackMessage : undefined}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        open={this.state.snackbarOpen}
-        autoHideDuration={3000}
-        onClose={this.handleSnackbarClose}
-        onExited={this.handleSnackbarExited}
-      >
-        <MuiAlert onClose={this.handleSnackbarClose} severity="success">
-          {this.state.snackMessage ? this.state.snackMessage : undefined}
-        </MuiAlert>
-      </Snackbar>
-    );
 
     return (
       <PageContainerDiv>
@@ -252,7 +218,6 @@ class JSONGenerator extends React.Component {
             {form}
           </FormContainer>
         </TabContainer>
-        {notificationSnackbar}
 
         <Footer>
           <Logo src={ColumbiaLogo} alt="Columbia Logo" />
