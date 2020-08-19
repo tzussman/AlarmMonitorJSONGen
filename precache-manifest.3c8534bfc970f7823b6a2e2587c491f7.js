@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2c5b52f45a85c52b6c348e7794904d99",
+    "revision": "6bef73b1ecc88482f808e92403004b49",
     "url": "/AlarmMonitorJSONGen/index.html"
   },
   {
-    "revision": "296fd586c6fa503d4804",
+    "revision": "a45ef9d80d3479656a07",
     "url": "/AlarmMonitorJSONGen/static/css/main.1359096b.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/AlarmMonitorJSONGen/static/js/2.a79cfe9c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "296fd586c6fa503d4804",
-    "url": "/AlarmMonitorJSONGen/static/js/main.c0bab6e0.chunk.js"
+    "revision": "a45ef9d80d3479656a07",
+    "url": "/AlarmMonitorJSONGen/static/js/main.2cdacbc7.chunk.js"
   },
   {
     "revision": "c901a3bdbde1f00b8f48",
