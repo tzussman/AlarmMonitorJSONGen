@@ -101,13 +101,15 @@ class JSONGenerator extends React.Component {
       this.json_object["rooms"].push({ "identifier": this.state.roomValue, "streams": [] });
       this.setState({
         currentRoom: this.state.roomValue,
-        numRooms: this.state.numRooms + 1
+        numRooms: this.state.numRooms + 1,
+        numStreams: 0
       });
     }
     else if (this.state.index === 1) {
       let rooms = this.json_object["rooms"];
       let streams = rooms[rooms.length - 1]["streams"];
       streams.push({ "name": this.state.streamValue, "streamLink": this.state.streamAddressValue });
+      this.setState({ numStreams: this.state.numStreams + 1 })
     }
 
     this.setState({
@@ -127,15 +129,15 @@ class JSONGenerator extends React.Component {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-    
-    this.setState({ currentRoom: NO_ROOM, numRooms: 0, index: 0 });
+
+    this.setState({ currentRoom: NO_ROOM, numRooms: 0, numStreams: 0, index: 0 });
     this.json_object = { "rooms": [] }
   }
 
   render() {
     const roomForm =
       <form noValidate autoComplete="off">
-        <NotificationParagraph>Number of Rooms Added: {this.state.numRooms}</NotificationParagraph>
+        <NotificationParagraph>Number of rooms added: {this.state.numRooms}</NotificationParagraph>
         <TextDiv>
           <TextField id="room_name_input" name="roomName" label="Room name" value={this.state.roomValue}
             onKeyPress={(event) => {
@@ -155,37 +157,45 @@ class JSONGenerator extends React.Component {
 
     const streamForm =
       <form noValidate autoComplete="off">
-        <NotificationParagraph>Current Room: {this.state.currentRoom}</NotificationParagraph>
         {this.state.currentRoom !== NO_ROOM ?
-          <TextDiv>
-            <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  this.addObject();
-                }
-              }}
-              onChange={this.handleStreamChange}
-            />
-            <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  this.addObject();
-                }
-              }}
-              onChange={this.handleStreamAddressChange}
-            />
-            <ButtonDiv>
-              <Button onClick={this.addObject} style={{ background: '#022169', color: 'white' }}>
-                Add Stream
+          <>
+            <NotificationParagraph>
+              Number of streams in room "{this.state.currentRoom}": {this.state.numStreams}
+            </NotificationParagraph>
+            <TextDiv>
+              <TextField id="stream_name_input" name="streamName" label="Stream name" value={this.state.streamValue}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    this.addObject();
+                  }
+                }}
+                onChange={this.handleStreamChange}
+              />
+              <TextField id="stream_link_input" name="streamLink" label="Stream link" value={this.state.streamAddressValue}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    this.addObject();
+                  }
+                }}
+                onChange={this.handleStreamAddressChange}
+              />
+              <ButtonDiv>
+                <Button onClick={this.addObject} style={{ background: '#022169', color: 'white' }}>
+                  Add Stream
               </Button>
-            </ButtonDiv>
-          </TextDiv>
-          : <p>Please add a room to add streams.</p>
+              </ButtonDiv>
+            </TextDiv>
+          </>
+          :
+          <>
+            <NotificationParagraph>Current room: {NO_ROOM}</NotificationParagraph>
+            <p>Please add a room to add streams.</p>
+          </>
         }
       </form>;
 
     const downloadButton = <Button onClick={this.download} style={{ background: '#022169', color: 'white' }}>
-        Download and start over
+      Download and start over
       </Button>;
 
     const form = [roomForm, streamForm, downloadButton][this.state.index];
